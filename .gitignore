@@ -1,0 +1,141 @@
+# ==============================================================================
+# KerjaArah — Global .gitignore
+# Stack: React + Vite + Tailwind (Frontend) | FastAPI + SQLite (Backend)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Environment & Secrets (Zona Sensitif)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.crt
+*credentials*.json
+*service-account*.json
+
+# ------------------------------------------------------------------------------
+# Dokumen Proposal & Konsep Lomba
+# ------------------------------------------------------------------------------
+proposal_*
+Proposal_*
+*proposal*
+*Proposal*
+*.pdf
+
+# ------------------------------------------------------------------------------
+# 2. Database & Data Penyimpanan Lokal (SQLite)
+# ------------------------------------------------------------------------------
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite3
+backend/*.db
+
+# ------------------------------------------------------------------------------
+# 3. Python & Virtual Environment (Backend)
+# ------------------------------------------------------------------------------
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# ------------------------------------------------------------------------------
+# 4. Node.js & Web Build Artifacts (Frontend)
+# ------------------------------------------------------------------------------
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+dist-ssr/
+*.local
+*.tsbuildinfo
+
+# Logs Node / Paket Manajer
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# 5. Deployment & Cloud Build
+# ------------------------------------------------------------------------------
+.vercel/
+
+# ------------------------------------------------------------------------------
+# 6. Sistem Operasi (Windows, macOS, Linux)
+# ------------------------------------------------------------------------------
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# ------------------------------------------------------------------------------
+# 7. Editor & IDE
+# ------------------------------------------------------------------------------
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.bak
+
+# VS Code (Pertahankan konfigurasi shared jika ada, abaikan workspace state)
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Root Solution Config (khusus pembantu VS Code lokal, tidak diunggah ke Git)
+/tsconfig.json
+
