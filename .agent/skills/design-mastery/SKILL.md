@@ -84,3 +84,21 @@ Setiap kali mendesain atau mengedit komponen interaktif, wajib memikirkan seluru
 5. **Empty State**: Sediakan visual kontekstual, pesan yang jelas, dan tombol aksi (CTA) yang memandu pengguna.
 6. **Error / Warning State**: Berikan indikasi yang manusiawi, spesifik, dan actionable (apa yang salah dan apa yang harus dilakukan pengguna).
 
+---
+
+## 6. Micro-Interactions, Feedback Taktil, & Motion Timing
+
+Memberikan sentuhan rasa "hidup" dan premium (*high-taste*) tanpa animasi berlebihan yang mengganggu:
+
+1. **Timing & Easing Standar Agensi**:
+   - Transisi mikro wajib berdurasi **150ms s.d. 200ms** dengan kurva `ease-out` (contoh: `transition-all duration-150 ease-out`).
+   - Dilarang memakai durasi lambat (>300ms) untuk hover atau klik tombol karena menimbulkan kesan website berat/lamban (*sluggish*).
+2. **Feedback Taktil Tombol (Active Press)**:
+   - Tambahkan efek membal saat tombol ditekan: `active:scale-[0.98] transition-transform duration-100 ease-out`. Memberikan sensasi taktil seperti tombol fisik aplikasi native.
+3. **Elevasi Kartu Halus (Subtle Card Lift)**:
+   - Untuk kartu interaktif (kartu temuan indikator, item Kanban): gunakan sedikit angkatan halus `hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200 ease-out`. Hindari pergeseran kasar yang terlalu jauh (`-translate-y-2`).
+4. **Kemunculan Konten Mulus (Smooth Reveal)**:
+   - Saat hasil analisis skor atau detail modal muncul, gunakan transisi mengalir: `animate-in fade-in-50 slide-in-from-bottom-2 duration-200`. Jangan membiarkan elemen baru muncul "jepret" mendadak.
+5. **Morphing State Feedback**:
+   - Setiap aksi penyalinan (seperti *Copy Tracking Code*) atau penyimpanan wajib memberikan feedback visual langsung (misal: ikon berganti menjadi centang halus selama 1.5–2 detik).
+

@@ -89,3 +89,24 @@ class OfficialDomainResponse(BaseModel):
     domain: str
     career_url: str
     verification_source: str
+
+
+# -------------------------------------------------------------
+# ZERO-KNOWLEDGE SEED ID VAULT SCHEMAS (Prototipe Fitur 05)
+# -------------------------------------------------------------
+class VaultSyncRequest(BaseModel):
+    seed_hash: str = Field(..., min_length=16, max_length=128, description="Hash SHA-256 Seed ID untuk partisi penyimpanan tanpa data pengenal")
+    encrypted_blob: str = Field(..., min_length=5, max_length=500000, description="Ciphertext data lamaran terenkripsi client-side")
+
+
+class VaultSyncResponse(BaseModel):
+    status: str
+    message: str
+    updated_at: str
+
+
+class VaultFetchResponse(BaseModel):
+    status: str
+    seed_hash: str
+    encrypted_blob: str
+    updated_at: str

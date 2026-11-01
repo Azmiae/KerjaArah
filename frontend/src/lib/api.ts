@@ -333,3 +333,65 @@ export async function getChecklist(): Promise<ChecklistItem[]> {
 export function getExportCsvUrl(): string {
   return `${API_BASE_URL}/api/stats/export.csv`
 }
+
+// ==========================================
+// ZERO-KNOWLEDGE SEED ID VAULT SYNC (Fitur 05)
+// ==========================================
+
+export interface VaultSyncResponse {
+  status: string
+  message: string
+  updated_at: string
+}
+
+export interface VaultFetchResponse {
+  status: string
+  seed_hash: string
+  encrypted_blob: string
+  updated_at: string
+}
+
+/**
+ * Menghasilkan hash SHA-256 dari Kunci Seed ID secara lokal di browser.
+ * Server hanya menerima hash ini, bukan Seed ID asli.
+ */
+export async function hashSeedId(seedId: string): Promise<string> {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(seedId.trim().toUpperCase())
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
+}
+
+/**
+ * Menyinkronkan cadangan data lamaran terenkripsi (Zero-Knowledge) ke server backend.
+ */
+export async function syncVaultToCloud(seedHash: string, encryptedBlob: string): Promise<VaultSyncResponse> {
+  const res = await fetch(`${API_BASE_URL}/api/vault/sync`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      seed_hash: seedHash,
+      encrypted_blob: encryptedBlob,
+    }),
+  })
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}))
+    throw new Error(errorData.detail || `HTTP ${res.status}: Gagal menyinkronkan ke brankas`)
+  }
+  return await res.json()
+}
+
+/**
+ * Mengambil data terenkripsi dari server berdasarkan hash Kunci Seed ID.
+ */
+export async function fetchVaultFromCloud(seedHash: string): Promise<VaultFetchResponse> {
+  const res = await fetch(`${API_BASE_URL}/api/vault/${encodeURIComponent(seedHash)}`)
+  if (!res.ok) {
+    if (res.status === 404) {
+      throw new Error('Data cadangan tidak ditemukan di server untuk Seed ID ini.')
+    }
+    throw new Error(`HTTP ${res.status}: Gagal mengambil data brankas`)
+  }
+  return await res.json()
+}

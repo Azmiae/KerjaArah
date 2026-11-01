@@ -1,0 +1,16 @@
+{
+  "name": "kerjaarah",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Platform Pemeriksaan Indikasi Penipuan Lowongan Kerja Berbasis Client-Side Privacy",
+  "scripts": {
+    "dev": "node dev.js",
+    "dev:all": "node dev.js all",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "node dev.js backend",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint"
+  }
+}
+

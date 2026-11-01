@@ -17,13 +17,16 @@
 *service-account*.json
 
 # ------------------------------------------------------------------------------
-# Dokumen Proposal & Konsep Lomba
+# Dokumen Proposal, Konsep & Submission Lomba
 # ------------------------------------------------------------------------------
 proposal_*
 Proposal_*
 *proposal*
 *Proposal*
 *.pdf
+submission/
+submission*/
+
 
 # ------------------------------------------------------------------------------
 # 2. Database & Data Penyimpanan Lokal (SQLite)

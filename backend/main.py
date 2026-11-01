@@ -39,6 +39,9 @@ try:
         ArticleResponse,
         ChecklistItemResponse,
         OfficialDomainResponse,
+        VaultSyncRequest,
+        VaultSyncResponse,
+        VaultFetchResponse,
     )
     from seed_data import seed_database
 except ImportError:
@@ -53,6 +56,9 @@ except ImportError:
         ArticleResponse,
         ChecklistItemResponse,
         OfficialDomainResponse,
+        VaultSyncRequest,
+        VaultSyncResponse,
+        VaultFetchResponse,
     )
     from backend.seed_data import seed_database
 
@@ -474,6 +480,64 @@ def update_report_status(tracking_code: str, payload: AdminStatusUpdate, authori
         conn.commit()
 
     return {"message": f"Status laporan {code} berhasil diperbarui menjadi {payload.status}"}
+
+
+# -------------------------------------------------------------
+# 5. ZERO-KNOWLEDGE SEED ID VAULT SYNC (Prototipe Fitur 05)
+# -------------------------------------------------------------
+@app.post("/api/vault/sync", response_model=VaultSyncResponse, tags=["Zero-Knowledge Vault"])
+def sync_vault_data(payload: VaultSyncRequest):
+    """
+    Menyimpan cadangan data lamaran terenkripsi (Zero-Knowledge).
+    Server HANYA menerima hash Seed ID dan ciphertext terenkripsi dari browser.
+    Tidak ada nama pengguna, email, atau isi data lowongan yang dapat dibaca di sisi server.
+    """
+    now = datetime.now().isoformat()
+    clean_hash = payload.seed_hash.strip().lower()
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            INSERT INTO user_vault_sync (seed_hash, encrypted_blob, updated_at)
+            VALUES (?, ?, ?)
+            ON CONFLICT(seed_hash) DO UPDATE SET
+                encrypted_blob = excluded.encrypted_blob,
+                updated_at = excluded.updated_at
+            """,
+            (clean_hash, payload.encrypted_blob, now),
+        )
+        conn.commit()
+
+    return VaultSyncResponse(
+        status="success",
+        message="Cadangan data terenkripsi berhasil disinkronkan secara Zero-Knowledge.",
+        updated_at=now,
+    )
+
+
+@app.get("/api/vault/{seed_hash}", response_model=VaultFetchResponse, tags=["Zero-Knowledge Vault"])
+def fetch_vault_data(seed_hash: str):
+    """
+    Mengambil cadangan data lamaran terenkripsi berdasarkan hash Seed ID.
+    Kunci dekripsi hanya berada di perangkat pengguna.
+    """
+    clean_hash = seed_hash.strip().lower()
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT seed_hash, encrypted_blob, updated_at FROM user_vault_sync WHERE seed_hash = ?",
+            (clean_hash,),
+        )
+        row = cursor.fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="Cadangan data tidak ditemukan untuk Kunci Seed ID ini.")
+
+        return VaultFetchResponse(
+            status="success",
+            seed_hash=row["seed_hash"],
+            encrypted_blob=row["encrypted_blob"],
+            updated_at=row["updated_at"],
+        )
 
 
 if __name__ == "__main__":

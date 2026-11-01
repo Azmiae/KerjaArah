@@ -112,4 +112,16 @@ def init_db():
             """
         )
 
+        # 7. Tabel Sinkronisasi Brankas Zero-Knowledge (Seed ID Vault Sync)
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS user_vault_sync (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                seed_hash TEXT UNIQUE NOT NULL,
+                encrypted_blob TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            )
+            """
+        )
+
         conn.commit()

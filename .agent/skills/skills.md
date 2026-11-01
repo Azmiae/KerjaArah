@@ -29,12 +29,13 @@ Dokumen ini adalah **pintu masuk utama** bagi AI agent untuk memahami, memilih, 
   - **Komposisi daripada Buat Ulang:** Gabungkan primitif yang ada (contoh: Form = `FieldGroup` + `Field` + `Input`).
 
 ### B. [`design-mastery`](./design-mastery/SKILL.md) — Arah Estetika & Kualitas Visual Anti-Klise
-- **Fokus:** Mengeliminasi tampilan generik "AI vibe-coding" dan memberikan karakter visual profesional berstandar industri.
+- **Fokus:** Mengeliminasi tampilan generik "AI vibe-coding" dan memberikan karakter visual profesional berstandar industri dengan sentuhan interaktif taktil.
 - **Aturan Inti:**
   - **Anti-Klise AI:** Dilarang menggunakan bayangan glow neon mengambang (`shadow-[#...]/...`), teks bergradien warna-warni berlebih, atau ikon `Sparkles` untuk fitur umum.
   - **Hierarki Tipografi:** Kontras yang tegas antara Display (`text-3xl font-bold tracking-tight`), Section (`text-xl font-semibold`), Subheading/Label (`text-sm font-medium`), dan Body (`text-sm text-muted-foreground leading-relaxed`).
   - **Ritme Spasi 8-Point Grid:** Gunakan kelipatan 4px/8px konsisten (`gap-2`, `gap-4`, `gap-6`, `gap-8`, `p-4`, `p-6`). Dilarang angka arbitrary seperti `gap-[13px]`.
   - **Kelengkapan State:** Wajib mendesain seluruh state (Default, Hover, Focus-visible, Loading Skeleton, Empty state, Error state).
+  - **Micro-Interactions & Taktil:** Timing transisi 150–200ms (`ease-out`), feedback tekan tombol (`active:scale-[0.98]`), elevasi kartu halus (`hover:-translate-y-0.5`), dan kemunculan konten dinamis yang mengalir (`animate-in fade-in-50 slide-in-from-bottom-2`).
 
 ### C. [`frontend-mobile-development`](./frontend-mobile-development/SKILL.md) — Ergonomi & Responsivitas Mobile-First
 - **Fokus:** Menjamin pengalaman pengguna yang mulus pada layar ponsel (<640px) hingga desktop.
