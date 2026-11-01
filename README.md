@@ -79,5 +79,5 @@ Proyek KerjaArah saat ini telah menyelesaikan tahap prototipe interaktif dan MVP
 
 ---
 
-*Disusun untuk First Draft Submission Multimedia in Action (MIA) / Women in Action (WIA) 2026.*
+*Disusun untuk First Draft Submission Multimedia in Action (MIA) / Web in Action (WIA) 2026.*
 
