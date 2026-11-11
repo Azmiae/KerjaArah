@@ -87,7 +87,7 @@ npm --prefix frontend test
 
 ## 📌 Progress Saat Ini (11 November 2026)
 
-Proyek KerjaArah saat ini telah menyelesaikan tahap prototipe interaktif dan MVP fungsional:
+Proyek KerjaArah saat ini telah menyelesaikan tahap Final :
 
 1. **Halaman Landing Page (Desktop & Mobile):**
    - Desain lengkap **Lo-Fi Wireframe** & **Hi-Fi Visual** (Desktop 1440px & Mobile 390px).
@@ -128,5 +128,5 @@ Pengujian juga mencakup kontrak QC K1–K3 (*dual-verification*) dan jaminan red
 
 ---
 
-*Disusun untuk First Draft Submission Multimedia in Action (MIA) / Web in Action (WIA) 2026.*
+*Disusun untuk Final Draft Submission Multimedia in Action (MIA) / Web in Action (WIA) 2026.*
 
