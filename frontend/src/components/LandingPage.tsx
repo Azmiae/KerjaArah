@@ -274,10 +274,10 @@ export function LandingPage({
                     <div className="flex items-center justify-between font-bold">
                       <div className="flex items-center gap-1.5">
                         <AlertTriangle className="size-4 text-destructive shrink-0" />
-                        <span>Skor Risiko: 85 (Kategori Kritis)</span>
+                        <span>Skor Risiko: 85 (Risiko Tinggi)</span>
                       </div>
                       <Badge variant="destructive" className="text-[10px] uppercase">
-                        Override Kritis
+                        Indikator Kritis
                       </Badge>
                     </div>
                     <p className="text-[11px] text-destructive/90 leading-relaxed">
@@ -300,7 +300,13 @@ export function LandingPage({
                       <div className="flex items-start gap-1.5 text-foreground font-medium">
                         <span className="text-destructive font-bold">•</span>
                         <span>
-                          <strong>Modus K2:</strong> Meminta kode OTP 6 digit dalam batas waktu 10 menit.
+                          <strong>Modus K2:</strong> Meminta kode OTP 6 digit untuk verifikasi akun.
+                        </span>
+                      </div>
+                      <div className="flex items-start gap-1.5 text-foreground font-medium">
+                        <span className="text-destructive font-bold">•</span>
+                        <span>
+                          <strong>Sinyal S1:</strong> Desakan membalas dalam batas waktu 10 menit.
                         </span>
                       </div>
                     </div>
@@ -341,9 +347,9 @@ export function LandingPage({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-2xl sm:text-3xl font-extrabold text-foreground font-mono">12</span>
-              <span className="text-xs font-semibold text-foreground">Indikator Modus Kritis</span>
-              <span className="text-[11px] text-muted-foreground">K1 Travel, K2 OTP, K3 Deposit & I1-I7</span>
+              <span className="text-2xl sm:text-3xl font-extrabold text-foreground font-mono">14</span>
+              <span className="text-xs font-semibold text-foreground">Indikator Risiko Berbobot</span>
+              <span className="text-[11px] text-muted-foreground">Kritis K1–K3, Tinggi T1–T4, Sedang S1–S7</span>
             </div>
             <div className="flex flex-col items-center gap-1">
               <span className="text-2xl sm:text-3xl font-extrabold text-foreground font-mono">&lt; 1 Detik</span>
