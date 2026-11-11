@@ -9,7 +9,11 @@ import os
 from contextlib import contextmanager
 
 DB_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(DB_DIR, "kerjaarah.db")
+# Di hosting, arahkan DATABASE_PATH ke volume persisten agar laporan tidak hilang
+# setiap kali kontainer dimulai ulang. Bila kosong, tetap di folder backend
+# sehingga pengembangan lokal tidak berubah sama sekali.
+DB_PATH = os.getenv("DATABASE_PATH", "").strip() or os.path.join(DB_DIR, "kerjaarah.db")
+os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
 
 
 @contextmanager

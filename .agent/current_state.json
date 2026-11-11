@@ -2,13 +2,13 @@
   "project": "KerjaArah",
   "version": "0.4.0-prototype1",
   "competition": "Multimedia In Action 2026",
-  "lastUpdated": "2026-11-11T21:45:42+07:00",
+  "lastUpdated": "2026-11-11T22:55:42+07:00",
   "activePhase": "Fase 4: First Draft Submission & Documentation",
   "vcs": {
     "engine": ".agent internal log",
-    "totalCommits": 34,
-    "lastCommitId": "commit-034",
-    "lastCommitMessage": "style(ui): Penghapusan terjemahan Inggris mubazir pada judul antarmuka"
+    "totalCommits": 35,
+    "lastCommitId": "commit-035",
+    "lastCommitMessage": "docs(readme): Perbaikan perintah backend yang salah dan penambahan bagian pengujian"
   },
   "modulesStatus": {
     "proposal": "Revisi 3 Selesai (Tema Public Transparency)",

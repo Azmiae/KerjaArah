@@ -437,8 +437,14 @@ def export_stats_csv():
 # 4. ADMIN MODERATION ENDPOINTS (TERPROTEKSI SEDERHANA)
 # -------------------------------------------------------------
 def verify_admin_token(x_admin_key: Optional[str] = Header(None)):
-    expected_key = os.getenv("ADMIN_API_KEY", "kerjaarah-admin-demo-2026")
-    if x_admin_key != expected_key:
+    # Tidak ada kunci bawaan. Kunci yang tertulis di kode ikut terlihat di repositori
+    # publik, sehingga siapa pun dapat memoderasi laporan bila ADMIN_API_KEY lupa
+    # diisi saat deploy. Tanpa kunci yang dikonfigurasi, endpoint moderasi ditutup
+    # sepenuhnya (fail closed). compare_digest mencegah kebocoran lewat selisih waktu.
+    expected_key = os.getenv("ADMIN_API_KEY", "").strip()
+    if not expected_key:
+        raise HTTPException(status_code=503, detail="Endpoint moderasi nonaktif: ADMIN_API_KEY belum dikonfigurasi.")
+    if not x_admin_key or not secrets.compare_digest(x_admin_key, expected_key):
         raise HTTPException(status_code=403, detail="Akses ditolak: API Key moderator tidak valid.")
     return True
 

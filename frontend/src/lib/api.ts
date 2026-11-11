@@ -6,6 +6,20 @@
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
 
+/**
+ * fetch untuk fitur yang TIDAK punya fallback (lapor, lacak, vault).
+ * Backend di-hosting terpisah dari frontend dan dapat sedang memulai ulang,
+ * sehingga kegagalan jaringan diterjemahkan menjadi pesan yang dapat dipahami
+ * pengguna, alih-alih "Failed to fetch" dari peramban.
+ */
+async function fetchBackend(input: string, init?: RequestInit): Promise<Response> {
+  try {
+    return await fetch(input, init)
+  } catch {
+    throw new Error('Server KerjaArah sedang tidak dapat dihubungi. Server mungkin sedang memulai ulang, silakan coba lagi dalam beberapa saat.')
+  }
+}
+
 export interface StatsSummary {
   is_simulation: boolean
   simulation_label: string
@@ -127,7 +141,7 @@ export async function getStatsSummary(): Promise<StatsSummary> {
 }
 
 export async function submitReport(payload: ReportCreatePayload): Promise<ReportSubmitResponse> {
-  const res = await fetch(`${API_BASE_URL}/api/reports`, {
+  const res = await fetchBackend(`${API_BASE_URL}/api/reports`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -141,7 +155,7 @@ export async function submitReport(payload: ReportCreatePayload): Promise<Report
 
 export async function trackReport(trackingCode: string): Promise<ReportTracking> {
   const code = trackingCode.trim().toUpperCase()
-  const res = await fetch(`${API_BASE_URL}/api/reports/${encodeURIComponent(code)}`)
+  const res = await fetchBackend(`${API_BASE_URL}/api/reports/${encodeURIComponent(code)}`)
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}))
     throw new Error(errorData.detail || 'Kode pelacakan tidak ditemukan.')
@@ -367,7 +381,7 @@ export async function hashSeedId(seedId: string): Promise<string> {
  * Menyinkronkan cadangan data lamaran terenkripsi (Zero-Knowledge) ke server backend.
  */
 export async function syncVaultToCloud(seedHash: string, encryptedBlob: string): Promise<VaultSyncResponse> {
-  const res = await fetch(`${API_BASE_URL}/api/vault/sync`, {
+  const res = await fetchBackend(`${API_BASE_URL}/api/vault/sync`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -386,7 +400,7 @@ export async function syncVaultToCloud(seedHash: string, encryptedBlob: string):
  * Mengambil data terenkripsi dari server berdasarkan hash Kunci Seed ID.
  */
 export async function fetchVaultFromCloud(seedHash: string): Promise<VaultFetchResponse> {
-  const res = await fetch(`${API_BASE_URL}/api/vault/${encodeURIComponent(seedHash)}`)
+  const res = await fetchBackend(`${API_BASE_URL}/api/vault/${encodeURIComponent(seedHash)}`)
   if (!res.ok) {
     if (res.status === 404) {
       throw new Error('Data cadangan tidak ditemukan di server untuk Seed ID ini.')

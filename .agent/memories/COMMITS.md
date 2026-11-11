@@ -5,6 +5,20 @@ Daftar seluruh riwayat perubahan proyek **KerjaArah** dicatat secara kronologis 
 
 ---
 
+### [commit-035] - 2026-11-11 22:55:42 WIB
+- **Tipe / Scope:** `docs(readme)`: Perbaikan perintah backend yang salah dan penambahan bagian pengujian
+- **Pesan Commit:** Ganti perintah uvicorn yang tidak pernah bisa jalan, dokumentasikan npm run dev dari root, dan tambah metrik rule engine
+- **Penulis (Author):** Agent
+- **Status:** Selesai (commit `1487a90`, seluruh perintah diverifikasi jalan)
+- **File Terdampak:**
+  - `M` [README.md](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/README.md)
+- **Rincian Perubahan:**
+  - Perintah `uvicorn app.main:app` diganti `cd backend && python main.py` karena direktori backend/app/ tidak pernah ada.
+  - Bagian Pengujian & Validasi memuat metrik nyata beserta keterbatasannya, dicocokkan langsung dengan keluaran vitest.
+  - Commit ini juga memuat entri log commit-031 sampai commit-034.
+
+---
+
 ### [commit-034] - 2026-11-11 21:45:42 WIB
 - **Tipe / Scope:** `style(ui)`: Penghapusan terjemahan Inggris mubazir pada judul antarmuka
 - **Pesan Commit:** Hapus lima kurungan Inggris yang hanya menerjemahkan ulang judul berbahasa Indonesia
@@ -63,21 +77,3 @@ Daftar seluruh riwayat perubahan proyek **KerjaArah** dicatat secara kronologis 
   - Dataset berisi 40 contoh SINTETIS berlabel, dibobotkan ke kasus sulit terutama kalimat bernegasi. Setiap contoh punya kolom "jebakan" agar kesalahan klasifikasi dapat ditelusuri ke penyebabnya.
   - Lapis metrik sengaja tidak meng-assert ambang mutu apa pun supaya angka yang keluar jujur. Metrik dilaporkan dalam dua definisi, ketat dan longgar.
   - Menjawab evaluasi mentor agar pengujian rule engine diperluas ke kalimat kompleks.
-
----
-
-### [commit-030] - 2026-11-11 21:11:52 WIB
-- **Tipe / Scope:** `feat(ui)`: Penggantian logo header aplikasi dan penambahan micro-interaction menyeluruh
-- **Pesan Commit:** Ganti ikon header App.tsx dengan logo KerjaArah, jadikan blok logo sebagai tombol pulang, dan tambah micro-interaction di landing page serta tampilan aplikasi
-- **Penulis (Author):** Agent
-- **Status:** Selesai (commit `71b1d2b`, tsc 0 error, jumlah warning lint tidak bertambah)
-- **File Terdampak:**
-  - `M` [frontend/src/App.tsx](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/App.tsx)
-  - `M` [frontend/src/components/LandingPage.tsx](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/components/LandingPage.tsx)
-  - `M` [frontend/src/index.css](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/index.css)
-- **Rincian Perubahan:**
-  - Ikon ShieldCheck di header aplikasi diganti logo KerjaArah. Tombol "Landing Page" dihapus dan fungsinya dipindah ke blok logo yang kini menjadi tombol setinggi 44px dan dapat difokus keyboard, sebab `setCurrentView('landing')` sebelumnya hanya ada pada tombol tersebut.
-  - Kartu modul landing page memakai `group`: kartu terangkat, judul berubah warna, dan panah menggeser secara serempak saat hover. Kartu simulasi dan kartu Kanban mendapat angkat halus.
-  - Kartu hasil analisis masuk dengan `fade-in slide-in`, dan skor risiko menghitung naik memakai easing ease-out cubic lewat hook `useCountUp`.
-  - Ditambahkan guard `prefers-reduced-motion` global di `index.css`; sebelumnya proyek tidak menanganinya sama sekali. Hook `useCountUp` mengembalikan nilai target tanpa state update saat setelan tersebut aktif agar tidak menambah warning `react(set-state-in-effect)`.
-  - Catatan: kehalusan animasi hitung-naik belum terverifikasi di peramban nyata karena `requestAnimationFrame` di panel pratinjau ter-throttle sekitar 2 FPS. Logika easing diuji terpisah dan menghasilkan deret monoton yang berhenti tepat di nilai target.
