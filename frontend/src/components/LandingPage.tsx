@@ -5,7 +5,6 @@ import {
   BarChart3,
   BookOpen,
   ArrowRight,
-  Lock,
   CheckCircle2,
   AlertTriangle,
   Scale,
@@ -582,12 +581,6 @@ export function LandingPage({
       {/* 7. JAMINAN PRIVASI MUTLAK: ZERO-DATA COLLECTION (Section 4 Prototype) */}
       <section className="py-14 border-b border-border bg-muted/30">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center gap-4">
-          <div className="size-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
-            <Lock className="size-6" />
-          </div>
-          <Badge variant="outline" className="text-xs font-mono border-emerald-500/40 text-emerald-600 dark:text-emerald-400">
-            Jaminan Privasi & Zero-Cloud Architecture
-          </Badge>
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
             Privasi Anda Bukan Komoditas: Zero-Data Collection
           </h2>
