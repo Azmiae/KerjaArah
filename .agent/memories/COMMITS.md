@@ -5,6 +5,34 @@ Daftar seluruh riwayat perubahan proyek **KerjaArah** dicatat secara kronologis 
 
 ---
 
+### [commit-024] - 2026-11-11 19:12:08 WIB
+- **Tipe / Scope:** `chore(design)`: Pembaruan berkas prototipe interaktif FigCraft
+- **Pesan Commit:** Perbarui berkas desain KerjaArah_FullProject_InteractiveReal.figcraft (berkas biner, 100 KB -> 145 KB)
+- **Penulis (Author):** User (dicommit oleh Agent)
+- **Status:** Selesai (commit `2fbaca0`)
+- **File Terdampak:**
+  - `M` [design/KerjaArah_FullProject_InteractiveReal.figcraft](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/design/KerjaArah_FullProject_InteractiveReal.figcraft)
+- **Rincian Perubahan:**
+  - Berkas biner desain sudah termodifikasi di working tree sebelum sesi agent dimulai; isi perubahan tidak dapat diverifikasi baris per baris karena format biner.
+  - Dicommit terpisah dari perbaikan kode agar riwayat tetap bersih dan mudah dilacak.
+
+---
+
+### [commit-023] - 2026-11-11 19:12:03 WIB
+- **Tipe / Scope:** `fix(rule-engine)`: Perbaikan urutan redaksi data pribadi pada client-side rule engine
+- **Pesan Commit:** Pindahkan redaksi nomor HP ke atas blok rekening agar self-test QC K1-K3 kembali lolos
+- **Penulis (Author):** Agent
+- **Status:** Selesai (commit `02fbe75`, tsc 0 error, self-test QC lolos, terverifikasi di UI)
+- **File Terdampak:**
+  - `M` [frontend/src/lib/ruleEngine.ts](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/lib/ruleEngine.ts) (Fungsi `redactSensitiveData` dan `runSelfTest`)
+- **Rincian Perubahan:**
+  - **Temuan:** self-test QC gagal di konsol dengan pesan `FAILED QC: Redaksi data pribadi gagal!`. Penyebabnya, pola redaksi nomor rekening (10-16 digit) dijalankan lebih dulu sehingga nomor HP seperti 081234567890 tertangkap sebagai nomor rekening dan label `[NO. HP DISAMARKAN]` tidak pernah muncul.
+  - **Perbaikan:** blok redaksi nomor HP dipindah ke atas blok rekening, namun tetap di bawah redaksi NIK. Urutan NIK → HP → Rekening bersifat mengikat, sebab pola HP tidak berbatas kata di bagian depan sehingga dapat memotong NIK 16 digit bila dinaikkan terlalu tinggi.
+  - **QC Dual-Verification (AGENTS.md § 7.2):** ditambahkan Test 6 pada `runSelfTest` sebagai guard regresi urutan, memastikan nomor rekening 13 digit dan NIK 16 digit tetap tersamarkan setelah urutan ditukar.
+  - **Batasan perubahan:** bobot indikator, ambang kategori skor, dan aturan override Kritis tidak disentuh sama sekali (sesuai AGENTS.md § 4).
+
+---
+
 ### [commit-022] - 2026-11-01 20:15:00 WIB
 - **Tipe / Scope:** `docs(readme)`: Pembuatan dan penyusunan komprehensif README.md dokumentasi repositori
 - **Pesan Commit:** Menyusun README.md lengkap mencakup judul, deskripsi proyek 1-2 halaman, tech stack, panduan instalasi/eksekusi, serta penegasan status Prototype Tahap 1
@@ -45,30 +73,3 @@ Daftar seluruh riwayat perubahan proyek **KerjaArah** dicatat secara kronologis 
 - **File Terdampak:**
   - `+` [run.bat](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/run.bat) (All-in-one launcher untuk backend dan frontend)
   - `-` `run_backend.bat`, `run_frontend.bat`, `run_all.bat` (Dihapus agar root bersih)
-
----
-
-### [commit-019] - 2026-10-29 10:53:00 WIB
-- **Tipe / Scope:** `dx(backend)`: Simplifikasi cara menjalankan backend dan frontend
-- **Pesan Commit:** Tambahkan runner otomatis di `backend/main.py` dan skrip satu klik `run_backend.bat`, `run_frontend.bat`, serta `run_all.bat`
-- **Penulis (Author):** Antigravity Agent
-- **Status:** Selesai (Teruji)
-- **File Terdampak:**
-  - `M` [backend/main.py](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/backend/main.py) (Menambahkan entrypoint `__main__` uvicorn runner)
-  - `+` [run_backend.bat](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/run_backend.bat) (Runner backend satu klik otomatis memakai `.venv`)
-  - `+` [run_frontend.bat](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/run_frontend.bat) (Runner frontend satu klik bebas error execution policy)
-  - `+` [run_all.bat](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/run_all.bat) (Runner backend + frontend sekaligus)
-
----
-
-### [commit-018] - 2026-10-29 02:38:00 WIB
-- **Tipe / Scope:** `refactor(ui)`: Penghapusan teks dan badge WIA di seluruh antarmuka aplikasi
-- **Pesan Commit:** Hapus badge WIA 2026 pada header utama, modal About, banner transparansi, footer, dan metadata
-- **Penulis (Author):** Antigravity Agent
-- **Status:** Selesai (Build lolos 100%, 0 error)
-- **File Terdampak:**
-  - `M` [frontend/src/App.tsx](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/App.tsx) (Hapus badge WIA di samping logo header dan footer)
-  - `M` [frontend/src/components/AboutModal.tsx](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/components/AboutModal.tsx) (Hapus badge dan label WIA)
-  - `M` [frontend/src/components/DashboardTransparansi.tsx](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/components/DashboardTransparansi.tsx) (Ubah badge menjadi Public Transparency)
-  - `M` [frontend/index.html](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/index.html)
-  - `M` [backend/main.py](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/backend/main.py)
