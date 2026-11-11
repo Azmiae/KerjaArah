@@ -8,7 +8,7 @@ Mematuhi seluruh aturan pada .agent/agents.md.
 import os
 import sys
 import re
-import random
+import secrets
 import string
 import csv
 import io
@@ -110,21 +110,32 @@ def check_rate_limit(client_id: str):
 
 
 # Lapisan Kedua: Redaksi Data Pribadi di Sisi Server (Server-Side Redaction)
+# Urutan pola di bawah bersifat mengikat dan harus sama dengan redactSensitiveData
+# di frontend/src/lib/ruleEngine.ts: NIK dahulu, lalu nomor telepon, baru rekening.
 def server_redact(text: str) -> str:
-    # Sensor NIK 16 digit
+    # Sensor NIK 16 digit. Harus paling awal, sebab pola telepon dapat memotong
+    # bagian belakang NIK bila dijalankan lebih dulu.
     text = re.sub(r"\b[1-9]\d{15}\b", "[NIK DISAMARKAN]", text)
+    # Sensor Nomor Telepon Indonesia. Harus mendahului pola rekening, sebab nomor
+    # telepon 10-16 digit akan lebih dulu tertangkap sebagai rekening dan salah
+    # dilabeli. Pemisah "-", "." dan spasi ditoleransi karena orang lazim menulis
+    # 0812-9876-5432; tanpa toleransi ini nomor tersebut tersimpan utuh di server.
+    text = re.sub(r"(?:\+62|62|0)[-.\s]?8[1-9](?:[-.\s]?[0-9]){7,11}\b", "[NO. HP DISAMARKAN]", text)
     # Sensor Nomor Rekening (10-16 digit)
     text = re.sub(r"\b\d{10,16}\b", "[NO. REK DISAMARKAN]", text)
-    # Sensor Nomor Telepon Indonesia
-    text = re.sub(r"(?:\+62|62|0)8[1-9][0-9]{7,10}\b", "[NO. HP DISAMARKAN]", text)
     # Sensor Email Pribadi
     text = re.sub(r"[a-zA-Z0-9_.+-]+@(gmail|yahoo|hotmail|outlook)\.[a-zA-Z0-9-.]+", "[EMAIL PRIBADI DISAMARKAN]", text, flags=re.IGNORECASE)
     return text
 
 
 def generate_tracking_code() -> str:
-    random_str = "".join(random.choices(string.ascii_uppercase + string.digits, k=5))
-    return f"KA-2026-{random_str}"
+    # Memakai secrets, bukan random. Kode pelacakan adalah satu-satunya kunci akses
+    # pelapor ke status laporannya, sementara random.choices() bersifat deterministik
+    # bila keadaan generatornya diketahui sehingga kode berikutnya dapat diramalkan.
+    # Panjang tetap 5 karakter agar format publik KA-2026-XXXXX tidak berubah.
+    alfabet = string.ascii_uppercase + string.digits
+    kode = "".join(secrets.choice(alfabet) for _ in range(5))
+    return f"KA-2026-{kode}"
 
 
 # -------------------------------------------------------------
