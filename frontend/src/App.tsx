@@ -18,7 +18,6 @@ import {
   Send,
   Info,
   PlayCircle,
-  Home,
   KeyRound,
 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
@@ -98,12 +97,43 @@ interface JobApplication {
   dateAdded: string
 }
 
+/**
+ * Menganimasikan angka dari 0 menuju nilai target memakai requestAnimationFrame.
+ * Dipakai untuk skor risiko agar hasil analisis terasa "dihitung", bukan muncul tiba-tiba.
+ * Bila pengguna menyalakan "kurangi gerakan" di OS, nilai target dikembalikan apa adanya
+ * tanpa animasi dan tanpa state update sama sekali.
+ */
+function useCountUp(target: number, duration = 650): number {
+  const kurangiGerakan =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [value, setValue] = useState(0)
+
+  useEffect(() => {
+    if (kurangiGerakan) return
+    let frame = 0
+    const mulai = performance.now()
+    const tick = (now: number) => {
+      const progres = Math.min(1, (now - mulai) / duration)
+      // ease-out cubic: cepat di awal lalu melambat, terasa lebih alami daripada linear
+      const eased = 1 - Math.pow(1 - progres, 3)
+      setValue(Math.round(target * eased))
+      if (progres < 1) frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+  }, [target, duration, kurangiGerakan])
+
+  return kurangiGerakan ? target : value
+}
+
 export default function App() {
   const [currentView, setCurrentView] = useState<'landing' | 'app'>('landing')
   const [activeTab, setActiveTab] = useState<'scanner' | 'tracker' | 'dashboard' | 'reporting' | 'education' | 'checklist'>('scanner')
   const [jobText, setJobText] = useState(SAMPLE_JOBS[1].text)
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null)
   const [isSeedVaultOpen, setIsSeedVaultOpen] = useState(false)
+  const skorTampil = useCountUp(analysis?.score ?? 0)
 
   const handleNavigateToTab = (tab: 'scanner' | 'tracker' | 'dashboard' | 'reporting' | 'education' | 'checklist') => {
     setActiveTab(tab)
@@ -322,34 +352,31 @@ export default function App() {
       {/* Top Banner: Privacy-First & Competition Context */}
       <header className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-            <div className="size-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center shrink-0 shadow-xs">
-              <ShieldCheck className="size-4.5" />
-            </div>
-            <div className="min-w-0">
+          <button
+            type="button"
+            onClick={() => {
+              setCurrentView('landing')
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
+            title="Kembali ke Landing Page Utama"
+            className="flex items-center gap-2.5 sm:gap-3 min-w-0 min-h-11 text-left rounded-lg transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <img
+              src="/logo-kerjaarah.png"
+              alt="Logo KerjaArah"
+              className="size-8 rounded-full shrink-0 shadow-xs"
+            />
+            <span className="min-w-0 block">
               <span className="font-bold text-sm sm:text-base tracking-tight text-foreground block truncate">
                 KerjaArah
               </span>
-              <p className="text-[11px] text-muted-foreground hidden sm:block truncate">
+              <span className="text-[11px] text-muted-foreground hidden sm:block truncate">
                 Cari Kerja Lebih Aman, Kenali Risiko Sebelum Melamar
-              </p>
-            </div>
-          </div>
+              </span>
+            </span>
+          </button>
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setCurrentView('landing')
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-              }}
-              className="text-xs h-9 px-2.5 sm:px-3 font-medium min-w-[36px] flex items-center gap-1.5"
-              title="Kembali ke Landing Page Utama"
-            >
-              <Home className="size-3.5 text-primary" />
-              <span className="hidden sm:inline">Landing Page</span>
-            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -509,7 +536,7 @@ export default function App() {
 
                 {/* Info Redaksi Privasi */}
                 {analysis && (
-                  <Card className="bg-muted/30 border-border">
+                  <Card className="bg-muted/30 border-border animate-in fade-in slide-in-from-bottom-2 duration-300">
                     <CardHeader className="py-3">
                       <CardTitle className="text-xs text-muted-foreground flex items-center gap-2">
                         <Eye className="size-3.5 text-primary" />
@@ -528,7 +555,7 @@ export default function App() {
                 {analysis ? (
                   <>
                     <Card
-                      className={`border-2 ${analysis.category === 'Tinggi'
+                      className={`border-2 animate-in fade-in slide-in-from-bottom-2 duration-300 ${analysis.category === 'Tinggi'
                           ? 'border-destructive/60 bg-destructive/5'
                           : analysis.category === 'Sedang'
                             ? 'border-amber-500/60 bg-amber-500/5'
@@ -554,8 +581,8 @@ export default function App() {
                       </CardHeader>
                       <CardContent className="flex flex-col gap-4">
                         <div className="flex items-baseline justify-between">
-                          <span className="text-4xl font-black text-foreground tracking-tight">
-                            {analysis.score}
+                          <span className="text-4xl font-black text-foreground tracking-tight tabular-nums">
+                            {skorTampil}
                             <span className="text-base text-muted-foreground font-normal"> / 100</span>
                           </span>
                           <span className="text-xs text-muted-foreground font-medium">
@@ -1114,7 +1141,7 @@ function JobCard({
   onDelete: (id: string) => void
 }) {
   return (
-    <div className="p-3.5 bg-card border border-border rounded-xl shadow-xs hover:border-primary/50 transition-colors flex flex-col gap-2">
+    <div className="p-3.5 bg-card border border-border rounded-xl shadow-xs hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col gap-2">
       <div className="flex items-start justify-between gap-1">
         <div>
           <h4 className="text-xs font-semibold text-foreground line-clamp-1">{job.company}</h4>

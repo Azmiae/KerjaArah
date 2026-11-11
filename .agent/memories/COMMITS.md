@@ -5,6 +5,34 @@ Daftar seluruh riwayat perubahan proyek **KerjaArah** dicatat secara kronologis 
 
 ---
 
+### [commit-029] - 2026-11-11 20:35:42 WIB
+- **Tipe / Scope:** `docs(agent)`: Pencatatan commit-025 sampai commit-027 pada log version control internal
+- **Pesan Commit:** Catat tiga commit terbaru di COMMITS.md dan perbarui snapshot current_state.json
+- **Penulis (Author):** Agent
+- **Status:** Selesai (commit `37b60fb`)
+- **File Terdampak:**
+  - `M` [.agent/memories/COMMITS.md](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/.agent/memories/COMMITS.md)
+  - `M` [.agent/current_state.json](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/.agent/current_state.json)
+- **Rincian Perubahan:**
+  - Menambahkan entri commit-025, commit-026, dan commit-027, lalu memangkas commit-020 sampai commit-022 sesuai kebijakan retensi rolling 5 commit.
+  - Memperbarui totalCommits dari 24 menjadi 27.
+  - Setelah commit ini disepakati bahwa entri log tidak lagi dibuatkan commit `docs(agent)` tersendiri, melainkan ditumpangkan ke commit substantif berikutnya agar tidak menghasilkan commit administratif beruntun.
+
+---
+
+### [commit-028] - 2026-11-11 20:35:36 WIB
+- **Tipe / Scope:** `style(landing)`: Penghapusan ikon gembok dan badge pada section privasi
+- **Pesan Commit:** Hapus ikon gembok berlingkaran dan badge Jaminan Privasi & Zero-Cloud Architecture
+- **Penulis (Author):** Agent
+- **Status:** Selesai (commit `2273007`, tsc 0 error)
+- **File Terdampak:**
+  - `M` [frontend/src/components/LandingPage.tsx](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/components/LandingPage.tsx)
+- **Rincian Perubahan:**
+  - Section Zero-Data Collection kini langsung dibuka oleh judulnya, tanpa ikon dan badge pengantar.
+  - Impor `Lock` dari lucide-react dibuang karena menjadi yatim. Impor `Badge` dipertahankan sebab masih dipakai di dua tempat lain pada berkas yang sama.
+
+---
+
 ### [commit-027] - 2026-11-11 19:57:35 WIB
 - **Tipe / Scope:** `docs(agent)`: Pencatatan commit-023 dan commit-024 pada log version control internal
 - **Pesan Commit:** Catat commit-023 dan commit-024 di COMMITS.md serta perbarui snapshot current_state.json
@@ -49,31 +77,3 @@ Daftar seluruh riwayat perubahan proyek **KerjaArah** dicatat secara kronologis 
   - Ikon varian warna penuh dipotong dari lembar logo resmi pada koordinat x 276-398, y 653-777, hasil pemindaian terprogram atas pita ikon, bukan perkiraan manual.
   - Favicon dibuat terpisah dengan mask lingkaran beralfa transparan, sebab peramban menampilkan berkas apa adanya sehingga sudut putih bawaan sumber JPEG akan tampak sebagai kotak di tab.
   - favicon.svg dan icons.svg dihapus setelah disisir dari tiga sudut pencarian di seluruh repositori dan terbukti nol referensi.
-
----
-
-### [commit-024] - 2026-11-11 19:12:08 WIB
-- **Tipe / Scope:** `chore(design)`: Pembaruan berkas prototipe interaktif FigCraft
-- **Pesan Commit:** Perbarui berkas desain KerjaArah_FullProject_InteractiveReal.figcraft (berkas biner, 100 KB -> 145 KB)
-- **Penulis (Author):** User (dicommit oleh Agent)
-- **Status:** Selesai (commit `2fbaca0`)
-- **File Terdampak:**
-  - `M` [design/KerjaArah_FullProject_InteractiveReal.figcraft](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/design/KerjaArah_FullProject_InteractiveReal.figcraft)
-- **Rincian Perubahan:**
-  - Berkas biner desain sudah termodifikasi di working tree sebelum sesi agent dimulai; isi perubahan tidak dapat diverifikasi baris per baris karena format biner.
-  - Dicommit terpisah dari perbaikan kode agar riwayat tetap bersih dan mudah dilacak.
-
----
-
-### [commit-023] - 2026-11-11 19:12:03 WIB
-- **Tipe / Scope:** `fix(rule-engine)`: Perbaikan urutan redaksi data pribadi pada client-side rule engine
-- **Pesan Commit:** Pindahkan redaksi nomor HP ke atas blok rekening agar self-test QC K1-K3 kembali lolos
-- **Penulis (Author):** Agent
-- **Status:** Selesai (commit `02fbe75`, tsc 0 error, self-test QC lolos, terverifikasi di UI)
-- **File Terdampak:**
-  - `M` [frontend/src/lib/ruleEngine.ts](file:///c:/Folder%20Tugas%20Azmi/OFAResearch/Lomba/MIA_WEB/frontend/src/lib/ruleEngine.ts) (Fungsi `redactSensitiveData` dan `runSelfTest`)
-- **Rincian Perubahan:**
-  - **Temuan:** self-test QC gagal di konsol dengan pesan `FAILED QC: Redaksi data pribadi gagal!`. Penyebabnya, pola redaksi nomor rekening (10-16 digit) dijalankan lebih dulu sehingga nomor HP seperti 081234567890 tertangkap sebagai nomor rekening dan label `[NO. HP DISAMARKAN]` tidak pernah muncul.
-  - **Perbaikan:** blok redaksi nomor HP dipindah ke atas blok rekening, namun tetap di bawah redaksi NIK. Urutan NIK → HP → Rekening bersifat mengikat, sebab pola HP tidak berbatas kata di bagian depan sehingga dapat memotong NIK 16 digit bila dinaikkan terlalu tinggi.
-  - **QC Dual-Verification (AGENTS.md § 7.2):** ditambahkan Test 6 pada `runSelfTest` sebagai guard regresi urutan, memastikan nomor rekening 13 digit dan NIK 16 digit tetap tersamarkan setelah urutan ditukar.
-  - **Batasan perubahan:** bobot indikator, ambang kategori skor, dan aturan override Kritis tidak disentuh sama sekali (sesuai AGENTS.md § 4).

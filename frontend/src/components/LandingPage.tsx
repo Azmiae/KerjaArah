@@ -234,7 +234,7 @@ export function LandingPage({
                 <Button
                   onClick={() => onNavigateToTab('scanner')}
                   size="lg"
-                  className="text-sm font-semibold h-11 px-6 shadow-sm"
+                  className="text-sm font-semibold h-11 px-6 shadow-sm active:scale-[0.98] hover:shadow-md transition-all duration-200"
                 >
                   <ShieldAlert className="size-4 mr-2" />
                   Mulai Periksa Loker Sekarang
@@ -382,9 +382,9 @@ export function LandingPage({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Card 1 */}
-            <Card className="flex flex-col justify-between hover:border-primary/50 transition-all">
+            <Card className="group flex flex-col justify-between hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
               <CardHeader className="space-y-3">
-                <CardTitle className="text-lg font-bold text-foreground">
+                <CardTitle className="text-lg font-bold text-foreground transition-colors group-hover:text-primary">
                   Job Scam Checker
                 </CardTitle>
                 <CardDescription className="text-sm leading-relaxed">
@@ -402,18 +402,18 @@ export function LandingPage({
                   variant="outline"
                   size="sm"
                   onClick={() => onNavigateToTab('scanner')}
-                  className="w-full text-xs font-medium justify-between"
+                  className="w-full text-xs font-medium justify-between active:scale-[0.98] transition-transform"
                 >
                   <span>Buka Job Scam Checker</span>
-                  <ArrowRight className="size-3.5" />
+                  <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                 </Button>
               </div>
             </Card>
 
             {/* Card 2 */}
-            <Card className="flex flex-col justify-between hover:border-primary/50 transition-all">
+            <Card className="group flex flex-col justify-between hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
               <CardHeader className="space-y-3">
-                <CardTitle className="text-lg font-bold text-foreground">
+                <CardTitle className="text-lg font-bold text-foreground transition-colors group-hover:text-primary">
                   Personal Job Tracker
                 </CardTitle>
                 <CardDescription className="text-sm leading-relaxed">
@@ -431,18 +431,18 @@ export function LandingPage({
                   variant="outline"
                   size="sm"
                   onClick={() => onNavigateToTab('tracker')}
-                  className="w-full text-xs font-medium justify-between"
+                  className="w-full text-xs font-medium justify-between active:scale-[0.98] transition-transform"
                 >
                   <span>Buka Personal Job Tracker</span>
-                  <ArrowRight className="size-3.5" />
+                  <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                 </Button>
               </div>
             </Card>
 
             {/* Card 3 */}
-            <Card className="flex flex-col justify-between hover:border-primary/50 transition-all">
+            <Card className="group flex flex-col justify-between hover:border-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
               <CardHeader className="space-y-3">
-                <CardTitle className="text-lg font-bold text-foreground">
+                <CardTitle className="text-lg font-bold text-foreground transition-colors group-hover:text-primary">
                   Edukasi & Lapor Terbuka
                 </CardTitle>
                 <CardDescription className="text-sm leading-relaxed">
@@ -460,10 +460,10 @@ export function LandingPage({
                   variant="outline"
                   size="sm"
                   onClick={() => onNavigateToTab('dashboard')}
-                  className="w-full text-xs font-medium justify-between"
+                  className="w-full text-xs font-medium justify-between active:scale-[0.98] transition-transform"
                 >
                   <span>Buka Dashboard Transparansi</span>
-                  <ArrowRight className="size-3.5" />
+                  <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                 </Button>
               </div>
             </Card>
@@ -534,7 +534,7 @@ export function LandingPage({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Loker Resmi Terpercaya */}
-            <Card className="border-emerald-500/30 bg-emerald-500/5">
+            <Card className="border-emerald-500/30 bg-emerald-500/5 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200">
               <CardHeader className="space-y-2">
                 <div className="flex items-center justify-between gap-3">
                   <CardTitle className="text-sm font-bold text-foreground">
@@ -555,7 +555,7 @@ export function LandingPage({
             </Card>
 
             {/* Modus Penipuan Kritis */}
-            <Card className="border-destructive/40 bg-destructive/5">
+            <Card className="border-destructive/40 bg-destructive/5 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200">
               <CardHeader className="space-y-2">
                 <div className="flex items-center justify-between gap-3">
                   <CardTitle className="text-sm font-bold text-foreground">
@@ -624,7 +624,7 @@ export function LandingPage({
           <Button
             onClick={() => onNavigateToTab('scanner')}
             size="lg"
-            className="text-sm font-semibold h-11 px-8 shadow-sm"
+            className="text-sm font-semibold h-11 px-8 shadow-sm active:scale-[0.98] hover:shadow-md transition-all duration-200"
           >
             Mulai Periksa Loker Sekarang
             <ArrowRight className="size-4 ml-2" />
