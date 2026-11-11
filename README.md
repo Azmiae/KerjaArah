@@ -1,4 +1,4 @@
-# KerjaArah — Platform Pemeriksa Indikasi Penipuan Lowongan Kerja & Pelacak Karir Aman
+# KerjaArah — Teman Cari Kerja, Bantu Kenali Loker Palsu
 
 > **KerjaArah** adalah platform berbasis web yang membantu pencari kerja mendeteksi dini indikasi penipuan lowongan kerja (*job scam*) secara instan dan objektif langsung di peramban pengguna tanpa mengorbankan privasi (*Zero-Data Collection*). Platform ini juga mengawal proses pencarian kerja melalui *Personal Job Tracker* dengan pengingat keamanan otomatis di setiap tahapan rekrutmen.
 
@@ -79,5 +79,5 @@ Proyek KerjaArah saat ini telah menyelesaikan tahap prototipe interaktif dan MVP
 
 ---
 
-*Disusun untuk First Draft Submission Multimedia in Action (MIA) / Women in Action (WIA) 2026.*
+*Disusun untuk First Draft Submission Multimedia in Action (MIA) / Web in Action (WIA) 2026.*
 
