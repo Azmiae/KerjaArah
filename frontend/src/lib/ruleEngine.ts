@@ -45,14 +45,16 @@ export function redactSensitiveData(text: string): string {
   let result = text
   // Redact NIK (16 digits)
   result = result.replace(/\b[1-9]\d{15}\b/g, '[NIK DISAMARKAN]')
+  // Redact Phone Numbers (Indonesia: 08xx or +628xx)
+  // Wajib dijalankan sebelum redaksi rekening: nomor HP (10-16 digit) akan lebih dulu
+  // tertangkap pola rekening dan salah dilabeli jika urutannya terbalik.
+  result = result.replace(/(?:\+62|62|0)8[1-9][0-9]{7,10}\b/g, '[NO. HP DISAMARKAN]')
   // Redact Nomor Rekening (10-16 digits)
   result = result.replace(/\b\d{10,16}\b/g, (match) => {
     // Abaikan jika tampaknya nomor tahun atau kode pos biasa
     if (match.length <= 5) return match
     return '[NO. REK DISAMARKAN]'
   })
-  // Redact Phone Numbers (Indonesia: 08xx or +628xx)
-  result = result.replace(/(?:\+62|62|0)8[1-9][0-9]{7,10}\b/g, '[NO. HP DISAMARKAN]')
   // Redact Personal Emails
   result = result.replace(/[a-zA-Z0-9_.+-]+@(gmail|yahoo|hotmail|outlook)\.[a-zA-Z0-9-.]+/gi, '[EMAIL PRIBADI DISAMARKAN]')
   return result
@@ -351,6 +353,16 @@ export function runSelfTest(): boolean {
   const redacted = redactSensitiveData('Hubungi 081234567890 atau kirim ke hrd@gmail.com')
   if (!redacted.includes('[NO. HP DISAMARKAN]') || !redacted.includes('[EMAIL PRIBADI DISAMARKAN]')) {
     throw new Error('FAILED QC: Redaksi data pribadi gagal!')
+  }
+
+  // Test 6: Guard Regresi Urutan Redaksi (rekening & NIK tetap tersamarkan)
+  const redactedRek = redactSensitiveData('Transfer ke rekening 1234567890123 a.n. Budi')
+  if (!redactedRek.includes('[NO. REK DISAMARKAN]')) {
+    throw new Error('FAILED QC: Redaksi nomor rekening gagal!')
+  }
+  const redactedNik = redactSensitiveData('Kirim foto KTP NIK 3201081234567890 sekarang')
+  if (!redactedNik.includes('[NIK DISAMARKAN]')) {
+    throw new Error('FAILED QC: Redaksi NIK gagal!')
   }
 
   console.log('[RuleEngine] ✅ Semua test QC K1-K3 lolos dengan sukses.')
