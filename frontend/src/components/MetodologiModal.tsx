@@ -248,7 +248,7 @@ export function MetodologiModal({ open, onOpenChange }: MetodologiModalProps) {
           <div className="p-4 rounded-xl bg-muted/40 border border-border space-y-2 text-muted-foreground leading-relaxed text-[11px] font-normal">
             <span className="font-semibold text-xs text-foreground flex items-center gap-1.5">
               <Info className="size-3.5 text-muted-foreground" />
-              Batasan Sistem & Pernyataan Hukum (Civic Disclaimer)
+              Batasan Sistem & Pernyataan Hukum
             </span>
             <p>
               KerjaArah dirancang sebagai instrumen asistensi mandiri pencari kerja untuk meningkatkan kewaspadaan dini

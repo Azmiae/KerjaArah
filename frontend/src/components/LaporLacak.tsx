@@ -167,7 +167,7 @@ export function LaporLacak({
         <div>
           <h2 className="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
             <FileText className="size-5 text-primary" />
-            Layanan Pelaporan & Pelacakan Publik (Civic Reporting)
+            Layanan Pelaporan & Pelacakan Publik
           </h2>
           <p className="text-xs text-muted-foreground mt-1">
             Akuntabilitas dua arah: Laporkan indikasi penipuan rekrutmen dan pantau status tindak lanjutnya secara
@@ -425,7 +425,7 @@ export function LaporLacak({
             <CardHeader className="p-6">
               <CardTitle className="text-lg font-bold text-foreground flex items-center gap-2">
                 <Search className="size-5 text-primary" />
-                Lacak Status Laporan Publik (Public Service Tracking)
+                Lacak Status Laporan Publik
               </CardTitle>
               <CardDescription className="text-xs text-muted-foreground mt-1">
                 Masukkan kode pelacakan laporan Anda (contoh: KA-2026-XXXXX) untuk memantau status audit dan tindak
@@ -530,7 +530,7 @@ export function LaporLacak({
                   {/* Visual Stepper Audit Trail */}
                   <div className="space-y-3">
                     <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider">
-                      Alur Audit Akuntabilitas (Audit Trail)
+                      Alur Audit Akuntabilitas
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       {/* Step 1: Diterima */}
@@ -686,7 +686,7 @@ export function LaporLacak({
 
           <div className="space-y-4 my-2">
             <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-foreground">Teks Lowongan yang Disamarkan (Redacted):</span>
+              <span className="text-xs font-semibold text-foreground">Teks Lowongan yang Disamarkan:</span>
               <div className="p-3.5 rounded-lg bg-muted/50 border border-border text-xs font-mono text-foreground max-h-56 overflow-y-auto whitespace-pre-wrap leading-relaxed">
                 {redactedPreview}
               </div>
