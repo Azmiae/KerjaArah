@@ -25,8 +25,13 @@ export interface AnalysisResult {
 // Negation patterns: kata-kata yang membatalkan deteksi jika muncul dalam konteks dekat
 const NEGATION_PATTERNS = [
   /tidak\s+(?:pernah\s+)?(?:ada\s+)?(?:meminta|dipungut|membayar|dikenakan|memungut)/i,
+  // Celah lama: "Tidak ada biaya pendaftaran" tidak dikenali sebagai penyangkalan
+  // karena pola di atas menuntut kata kerja, sehingga kalimat sah justru memicu K1.
+  /tidak\s+ada\s+(?:biaya|pungutan|potongan|pemungutan)/i,
+  /tidak\s+(?:mewajibkan|memungut|menarik)\s+(?:biaya|pungutan|peserta|pelamar)/i,
+  /tidak\s+bekerjasama\s+dengan/i,
   /tanpa\s+(?:biaya|pungutan|deposit|potongan)/i,
-  /bebas\s+biaya/i,
+  /bebas\s+(?:dari\s+)?(?:biaya|pungutan)/i,
   /gratis/i,
   /waspada\s+(?:terhadap\s+)?penipuan/i,
   /hati-hati\s+(?:terhadap\s+)?(?:penipuan|permintaan)/i,
@@ -34,11 +39,36 @@ const NEGATION_PATTERNS = [
   /bukan\s+penipuan/i,
 ]
 
-function isNegated(text: string, matchIndex: number, windowSize = 60): boolean {
-  const start = Math.max(0, matchIndex - windowSize)
-  const end = Math.min(text.length, matchIndex + windowSize)
-  const snippet = text.slice(start, end)
-  return NEGATION_PATTERNS.some((pattern) => pattern.test(snippet))
+/**
+ * Mengambil potongan kalimat yang memuat posisi match.
+ *
+ * Pembatasnya hanya tanda titik, seru, dan tanya. Ganti baris tunggal SENGAJA
+ * tidak dianggap batas kalimat, sebab teks lowongan lazim membungkus satu
+ * kalimat ke beberapa baris. Memperlakukan "\n" sebagai pembatas membuat
+ * kalimat seperti "tidak pernah meminta / peserta membayar tiket" terpotong,
+ * penyangkalannya hilang, dan lowongan sah justru dituduh menipu.
+ */
+function kalimatSekitar(text: string, matchIndex: number): string {
+  const pemisah = /[.!?]/
+  let awal = matchIndex
+  while (awal > 0 && !pemisah.test(text[awal - 1])) awal--
+  let akhir = matchIndex
+  while (akhir < text.length && !pemisah.test(text[akhir])) akhir++
+  return text.slice(awal, akhir)
+}
+
+/**
+ * Penyangkalan hanya membungkam deteksi bila berada di KALIMAT YANG SAMA.
+ *
+ * Sebelumnya dipakai jendela ±60 karakter yang bebas menembus batas kalimat.
+ * Akibatnya penipu cukup menempelkan "proses ini tidak dipungut biaya apapun"
+ * di kalimat pembuka untuk melumpuhkan deteksi pada kalimat permintaan uang
+ * berikutnya. Pembatasan per kalimat menutup celah penghindaran itu tanpa
+ * mengorbankan perlindungan false positive pada kalimat penegasan resmi.
+ */
+function isNegated(text: string, matchIndex: number): boolean {
+  const kalimat = kalimatSekitar(text, matchIndex)
+  return NEGATION_PATTERNS.some((pattern) => pattern.test(kalimat))
 }
 
 export function redactSensitiveData(text: string): string {
@@ -48,7 +78,9 @@ export function redactSensitiveData(text: string): string {
   // Redact Phone Numbers (Indonesia: 08xx or +628xx)
   // Wajib dijalankan sebelum redaksi rekening: nomor HP (10-16 digit) akan lebih dulu
   // tertangkap pola rekening dan salah dilabeli jika urutannya terbalik.
-  result = result.replace(/(?:\+62|62|0)8[1-9][0-9]{7,10}\b/g, '[NO. HP DISAMARKAN]')
+  // Pemisah "-", "." dan spasi ditoleransi karena orang lazim menulis 0812-9876-5432.
+  // Tanpa toleransi ini nomor tersebut lolos utuh ke laporan yang dikirim ke server.
+  result = result.replace(/(?:\+62|62|0)[-.\s]?8[1-9](?:[-.\s]?[0-9]){7,11}\b/g, '[NO. HP DISAMARKAN]')
   // Redact Nomor Rekening (10-16 digits)
   result = result.replace(/\b\d{10,16}\b/g, (match) => {
     // Abaikan jika tampaknya nomor tahun atau kode pos biasa
@@ -67,7 +99,10 @@ export function analyzeJobDescription(rawText: string): AnalysisResult {
   // -------------------------------------------------------------
   // K1: Permintaan transfer / biaya sebelum rekrutmen (+35, Kritis)
   // -------------------------------------------------------------
-  const k1Pattern = /(?:transfer|biaya|bayar|pungutan|setor|uang|ongkos|membayar)\s+(?:sebesar|administrasi|pelatihan|seragam|materai|member|pendaftaran|tiket|travel|akomodasi)/i
+  // Sisipan maksimal 3 kata agar frasa alami seperti "setor uang jaminan sebesar"
+  // tetap tertangkap. Memakai \w+ (bukan \S+) supaya pencocokan berhenti di tanda
+  // baca, sehingga tidak melompat ke kalimat berikutnya.
+  const k1Pattern = /(?:transfer|biaya|bayar|pungutan|setor|uang|ongkos|membayar)(?:\s+\w+){0,3}\s+(?:sebesar|administrasi|pelatihan|seragam|materai|member|pendaftaran|tiket|travel|akomodasi)/i
   const k1Match = text.match(k1Pattern)
   if (k1Match && k1Match.index !== undefined && !isNegated(text, k1Match.index)) {
     triggers.push({
@@ -99,7 +134,7 @@ export function analyzeJobDescription(rawText: string): AnalysisResult {
   // -------------------------------------------------------------
   // K3: Pekerjaan Berbasis Tugas dengan Setoran/Top-Up (+30, Kritis)
   // -------------------------------------------------------------
-  const k3Pattern = /(?:like|subscribe|follow|nonton|review|tugas)\s+(?:dapat\s+komisi|dibayar|top\s*up|deposit|modal\s+awal)/i
+  const k3Pattern = /(?:like|subscribe|follow|nonton|review|tugas)(?:\s+\w+){0,3}\s+(?:dapat\s+komisi|dibayar|top\s*up|deposit|modal\s+awal)/i
   const k3Match = text.match(k3Pattern)
   if (k3Match && k3Match.index !== undefined && !isNegated(text, k3Match.index)) {
     triggers.push({
@@ -295,13 +330,19 @@ export function analyzeJobDescription(rawText: string): AnalysisResult {
   // Evaluasi Override Rule Kritis (K1-K3)
   const hasCritical = triggers.some((t) => t.severity === 'Kritis')
 
+  // Indikator severity Tinggi bernilai 15-20 poin, sedangkan ambang "Sedang" 30 poin.
+  // Akibatnya satu indikator Tinggi yang menyala sendirian tetap jatuh ke "Rendah":
+  // lowongan dengan tautan pemendek mencurigakan dilaporkan aman kepada pelamar.
+  // Karena itu jumlah indikator Tinggi ikut menentukan kategori, bukan skor semata.
+  const jumlahTinggi = triggers.filter((t) => t.severity === 'Tinggi').length
+
   let category: 'Rendah' | 'Sedang' | 'Tinggi' = 'Rendah'
   let color: 'green' | 'yellow' | 'red' = 'green'
 
-  if (hasCritical || score >= 60) {
+  if (hasCritical || score >= 60 || jumlahTinggi >= 2) {
     category = 'Tinggi'
     color = 'red'
-  } else if (score >= 30) {
+  } else if (score >= 30 || jumlahTinggi >= 1) {
     category = 'Sedang'
     color = 'yellow'
   } else {
