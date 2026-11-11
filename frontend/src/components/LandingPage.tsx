@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import {
-  ShieldCheck,
   ShieldAlert,
   Briefcase,
   BarChart3,
   BookOpen,
   ArrowRight,
   Lock,
-  Zap,
   CheckCircle2,
   AlertTriangle,
   Scale,
@@ -43,9 +41,11 @@ export function LandingPage({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           {/* Logo & Tagline */}
           <div className="flex items-center gap-3">
-            <div className="size-9 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm shadow-xs shrink-0">
-              KA
-            </div>
+            <img
+              src="/logo-kerjaarah.png"
+              alt="Logo KerjaArah"
+              className="size-9 rounded-full shadow-xs shrink-0"
+            />
             <div>
               <span className="font-bold text-base tracking-tight text-foreground block">
                 KerjaArah
@@ -217,11 +217,6 @@ export function LandingPage({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Kolom Teks Hero */}
             <div className="lg:col-span-7 flex flex-col gap-5 text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border bg-muted/60 text-muted-foreground text-xs font-medium w-fit shadow-xs">
-                <span className="size-2 rounded-full bg-primary animate-pulse" />
-                <span>Inisiatif Keamanan Karir Digital Terpadu 2026</span>
-              </div>
-
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
                 Cari Kerja Lebih Aman,{' '}
                 <span className="text-primary underline decoration-primary/30 underline-offset-4">
@@ -234,22 +229,6 @@ export function LandingPage({
                 Pemeriksa indikasi penipuan lowongan kerja otomatis 100% lokal di browser Anda. Lindungi data pribadi
                 dan cegah kerugian finansial sebelum mengirim berkas lamaran atau menghadiri seleksi kerja.
               </p>
-
-              {/* Trust Badges */}
-              <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-muted-foreground font-medium">
-                <div className="flex items-center gap-1.5 bg-muted/40 px-2.5 py-1 rounded-md border border-border">
-                  <Lock className="size-3.5 text-emerald-500" />
-                  <span>100% Client-Side</span>
-                </div>
-                <div className="flex items-center gap-1.5 bg-muted/40 px-2.5 py-1 rounded-md border border-border">
-                  <Zap className="size-3.5 text-amber-500" />
-                  <span>12 Indikator Kritis K1-K3</span>
-                </div>
-                <div className="flex items-center gap-1.5 bg-muted/40 px-2.5 py-1 rounded-md border border-border">
-                  <ShieldCheck className="size-3.5 text-primary" />
-                  <span>Zero-Cloud Storage</span>
-                </div>
-              </div>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
@@ -406,16 +385,10 @@ export function LandingPage({
             {/* Card 1 */}
             <Card className="flex flex-col justify-between hover:border-primary/50 transition-all">
               <CardHeader className="space-y-3">
-                <div className="size-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
-                  <ShieldAlert className="size-5" />
-                </div>
-                <Badge variant="secondary" className="w-fit text-[10px] font-mono">
-                  MODUL 01 • DETEKSI PREVENTIF
-                </Badge>
-                <CardTitle className="text-base font-bold text-foreground">
+                <CardTitle className="text-lg font-bold text-foreground">
                   Job Scam Checker
                 </CardTitle>
-                <CardDescription className="text-xs leading-relaxed">
+                <CardDescription className="text-sm leading-relaxed">
                   Pemeriksa indikasi penipuan berbasis rule engine lokal:
                   <ul className="mt-2 space-y-1.5 text-muted-foreground">
                     <li>• Pemicu Kritis K1 (Tiket biro travel & reimburse palsu)</li>
@@ -441,16 +414,10 @@ export function LandingPage({
             {/* Card 2 */}
             <Card className="flex flex-col justify-between hover:border-primary/50 transition-all">
               <CardHeader className="space-y-3">
-                <div className="size-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
-                  <Briefcase className="size-5" />
-                </div>
-                <Badge variant="secondary" className="w-fit text-[10px] font-mono">
-                  MODUL 02 • PENGAWALAN KARIR
-                </Badge>
-                <CardTitle className="text-base font-bold text-foreground">
+                <CardTitle className="text-lg font-bold text-foreground">
                   Personal Job Tracker
                 </CardTitle>
-                <CardDescription className="text-xs leading-relaxed">
+                <CardDescription className="text-sm leading-relaxed">
                   Papan Kanban pelacakan lamaran dengan pengaman stage-gate:
                   <ul className="mt-2 space-y-1.5 text-muted-foreground">
                     <li>• 4 Kolom Status (Wishlist, Applied, Interview, Offering)</li>
@@ -476,16 +443,10 @@ export function LandingPage({
             {/* Card 3 */}
             <Card className="flex flex-col justify-between hover:border-primary/50 transition-all">
               <CardHeader className="space-y-3">
-                <div className="size-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold">
-                  <BarChart3 className="size-5" />
-                </div>
-                <Badge variant="secondary" className="w-fit text-[10px] font-mono">
-                  MODUL 03 • AKUNTABILITAS PUBLIK
-                </Badge>
-                <CardTitle className="text-base font-bold text-foreground">
+                <CardTitle className="text-lg font-bold text-foreground">
                   Edukasi & Lapor Terbuka
                 </CardTitle>
-                <CardDescription className="text-xs leading-relaxed">
+                <CardDescription className="text-sm leading-relaxed">
                   Pusat wawasan komunitas dan transparansi modus kejahatan:
                   <ul className="mt-2 space-y-1.5 text-muted-foreground">
                     <li>• Direktori domain situs resmi BUMN & korporat terverifikasi</li>
@@ -576,20 +537,14 @@ export function LandingPage({
             {/* Loker Resmi Terpercaya */}
             <Card className="border-emerald-500/30 bg-emerald-500/5">
               <CardHeader className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Badge variant="outline" className="border-emerald-500 text-emerald-600 dark:text-emerald-400 text-[11px] font-mono">
-                    🟢 LOKER RESMI TERPERCAYA
-                  </Badge>
-                  <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                <div className="flex items-center justify-between gap-3">
+                  <CardTitle className="text-sm font-bold text-foreground">
+                    PT Telekomunikasi Indonesia (Telkom)
+                  </CardTitle>
+                  <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 shrink-0">
                     Skor: 0 / 100
                   </span>
                 </div>
-                <CardTitle className="text-sm font-bold text-foreground">
-                  PT Telekomunikasi Indonesia (Telkom)
-                </CardTitle>
-                <CardDescription className="text-xs text-muted-foreground">
-                  Tingkat Risiko: <strong>RENDAH</strong> — Status: Aman Melamar
-                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 text-xs">
                 <div className="p-3 rounded-md bg-background/80 border border-border space-y-1 font-mono text-[11px] text-muted-foreground leading-relaxed">
@@ -597,40 +552,26 @@ export function LandingPage({
                   <p>• Proses rekrutmen ini TIDAK dipungut biaya apapun</p>
                   <p>• Tidak bekerjasama dengan biro perjalanan manapun</p>
                 </div>
-                <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-xs font-medium">
-                  <CheckCircle2 className="size-4 shrink-0" />
-                  <span>Sistem mendeteksi frasa negasi resmi ("tidak dipungut biaya") dan tidak memicu false-positive.</span>
-                </div>
               </CardContent>
             </Card>
 
             {/* Modus Penipuan Kritis */}
             <Card className="border-destructive/40 bg-destructive/5">
               <CardHeader className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Badge variant="destructive" className="text-[11px] font-mono">
-                    🔴 MODUS PENIPUAN KRITIS (K1)
-                  </Badge>
-                  <span className="text-xs font-mono font-bold text-destructive">
+                <div className="flex items-center justify-between gap-3">
+                  <CardTitle className="text-sm font-bold text-foreground">
+                    Panggilan Seleksi Pertamina Palsu (Travel Scam)
+                  </CardTitle>
+                  <span className="text-xs font-mono font-bold text-destructive shrink-0">
                     Skor: 70 / 100
                   </span>
                 </div>
-                <CardTitle className="text-sm font-bold text-foreground">
-                  Panggilan Seleksi Pertamina Palsu (Travel Scam)
-                </CardTitle>
-                <CardDescription className="text-xs text-destructive font-medium">
-                  Tingkat Risiko: <strong>TINGGI / KRITIS</strong> — Override K1 Terpicu
-                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 text-xs">
                 <div className="p-3 rounded-md bg-background/80 border border-destructive/20 space-y-1 font-mono text-[11px] text-destructive leading-relaxed">
                   <p>• "Peserta wajib transfer biaya reservasi tiket travel rekanan"</p>
                   <p>• "Uang tiket akan diganti (reimburse) 100% setelah tiba di lokasi tes"</p>
                   <p>• "Segera konfirmasi ke WhatsApp Admin: 081298765432, kuota terbatas!"</p>
-                </div>
-                <div className="flex items-center gap-2 text-destructive text-xs font-medium">
-                  <AlertTriangle className="size-4 shrink-0" />
-                  <span>Sistem langsung memicu Override Kritis K1 dan mengunci kategori pada tingkat risiko TINGGI.</span>
                 </div>
               </CardContent>
             </Card>
@@ -655,7 +596,7 @@ export function LandingPage({
             server penyimpan riwayat teks lowongan, tidak mencatat IP address pengguna, dan tidak menjual data pencari kerja.
             Satu-satunya data yang dikirim adalah laporan sukarela masyarakat yang telah disanitasi dari data pribadi.
           </p>
-          <div className="flex items-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <Button
               variant="outline"
               size="sm"
@@ -704,9 +645,7 @@ export function LandingPage({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-8 border-b border-border">
             <div className="md:col-span-5 flex flex-col gap-3">
               <div className="flex items-center gap-2 text-foreground font-bold text-sm">
-                <div className="size-6 rounded bg-primary text-primary-foreground flex items-center justify-center font-bold text-xs">
-                  KA
-                </div>
+                <img src="/logo-kerjaarah.png" alt="Logo KerjaArah" className="size-6 rounded-full" />
                 <span>KerjaArah</span>
               </div>
               <p className="text-xs leading-relaxed max-w-sm">
